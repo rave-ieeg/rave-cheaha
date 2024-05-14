@@ -1,7 +1,7 @@
 # Script to build this renv from scratch
 
-# unlink("./renv/library/", recursive = TRUE)
 # unlink('~/.cache/R/renv/', recursive = TRUE)
+# unlink("./renv/library/", recursive = TRUE)
 # renv::init() # select 3
 source("renv/utils.R")
 lockfile <- pkg_call(

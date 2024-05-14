@@ -9,12 +9,12 @@
 #' please check `update.R`.
 #' ---- END of Documentation ---------------------------------------------------
 
-# 
-# # Initial bootstrap
-# source("renv/utils.R")
-# pkg_install("renv")
-# 
-# # Set up R libraries (time consuming)
-# renv::restore(prompt = FALSE)
-# 
-# # set up Python libraries
+# ---- Initial bootstrap (~3 min) ----------------------------------------------
+source("renv/utils.R")
+pkg_install("renv")
+renv::restore(prompt = FALSE)
+pak::pak_install_extra()
+
+# ---- Set up R & Python libraries (20-25 min) ---------------------------------
+ravemanager::install(python = TRUE)
+
