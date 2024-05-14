@@ -35,6 +35,20 @@ pkg_install <- function(pkg) {
   }
 }
 
+pkg_call <- function(pkg, fun, ...) {
+  asNamespace(pkg)[[fun]](...)
+}
+
+pkg_store <- function(pkgs) {
+  writeLines(
+    con = "_library.R",
+    text = paste(
+      collapse = "\n",
+      sprintf("library(%s)", pkgs)
+    )
+  )
+}
+
 # Function to install base packages
 check_base_pkgs <- function(pkgs) {
   if( length(pkgs) == 0 ) { return(invisible()) }

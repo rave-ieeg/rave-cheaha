@@ -1,8 +1,17 @@
 # Script to build this renv from scratch
 
-# unlink('~/.cache/R/renv/', recursive = TRUE)
 # unlink("./renv/library/", recursive = TRUE)
+# unlink('~/.cache/R/renv/', recursive = TRUE)
 # renv::init() # select 3
+source("renv/utils.R")
+lockfile <- pkg_call(
+  "renv", lockfile_modify, 
+  lockfile = pkg_call("renv", "lockfile_read"),
+  repos = list(raveieeg = "https://rave-ieeg.r-universe.dev", 
+               CRAN = "https://cloud.r-project.org")
+)
+pkg_call("renv", "lockfile_write", lockfile)
+renv::activate()
 
 # Install Missing R builtin packages (Cheaha R 4.3.1 misses the following builtin packages)
 R_MISSING_PACKAGES <- list(
@@ -15,35 +24,18 @@ R_MISSING_PACKAGES <- list(
 source("renv/utils.R")
 check_base_pkgs(names(R_MISSING_PACKAGES))
 ensure_user_libpath()
-utils::install.packages(c("ravemanager", "pak"))
-# ---- Install, configure, update RAVE -----------------------------------------
-packages <- unique(c(
-  ravemanager:::rave_depends,
-  ravemanager:::rave_packages,
-  ravemanager:::rave_suggests,
-  "RcppArmadillo"
-))
-packages <- packages[!packages %in% c("clustermq")]
-writeLines(
-  con = "_library.R",
-  sprintf("library(%s)", packages)
-)
-utils::install.packages(packages, repos = getOption("repos"))
-utils::install.packages(
-  c("Rcpp", "RcppEigen", "BH", "RcppArmadillo",
-    "pbdZMQ", "mvtnorm", "nloptr", "quantreg"),
-  repos = c(CRAN = "https://cloud.r-project.org")
-)
-utils::install.packages("ravebuiltins", repos = getOption("repos"))
-renv::snapshot()
 
-ravemanager::update_rave()
+utils::install.packages('ravemanager', repos = 'https://rave-ieeg.r-universe.dev')
+pkg_call("renv", "status")
+ravemanager::add_r_package("pak")
+
+pkg_store(c("pak", "ravemanager", names(R_MISSING_PACKAGES)))
+pkg_call("renv", "snapshot")
+
+# ravemanager:::try_setup_pak()
+# ravemanager::update_rave()
 
 # Make sure RAVE can be loaded
-source("_library.R")
-
-renv::status()
-renv::snapshot()
 
 # module load miniconda
 # Sys.setenv("R_RPYMAT_CONDA_EXE" = Sys.which("conda"))

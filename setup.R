@@ -9,12 +9,12 @@
 #' please check `update.R`.
 #' ---- END of Documentation ---------------------------------------------------
 
-
-# Initial bootstrap
-source("renv/utils.R")
-pkg_install("renv")
-
-# Set up R libraries (time consuming)
-renv::restore(prompt = FALSE)
-
-# set up Python libraries
+# 
+# # Initial bootstrap
+# source("renv/utils.R")
+# pkg_install("renv")
+# 
+# # Set up R libraries (time consuming)
+# renv::restore(prompt = FALSE)
+# 
+# # set up Python libraries
