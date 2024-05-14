@@ -4,6 +4,7 @@
 # Sys.setenv("R_RPYMAT_CONDA_PREFIX" = conda_env_path)
 # ravemanager::configure_python()
 
+Sys.setenv("RENV_CONFIG_REPOS_OVERRIDE" = "https://packagemanager.posit.co/cran/__linux__/centos7/2024-05-13")
 
 source("renv/activate.R")
 

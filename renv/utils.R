@@ -26,6 +26,15 @@ pkg_installed <- function(pkg, lib.loc = NULL) {
   return(TRUE)
 }
 
+pkg_install <- function(pkg) {
+  if(pkg_installed(pkg)) { return() }
+  if(!pkg_installed("renv")) {
+    install.packages(pkg)
+  } else {
+    renv::install(pkg, prompt = FALSE)
+  }
+}
+
 # Function to install base packages
 check_base_pkgs <- function(pkgs) {
   if( length(pkgs) == 0 ) { return(invisible()) }
