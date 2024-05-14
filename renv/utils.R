@@ -49,18 +49,6 @@ pkg_store <- function(pkgs) {
   )
 }
 
-rave_options_set <- function(key, value) {
-  pkg_call("raveio", "raveio_setopt", key = key, value = value)
-}
-
-available_cpu <- function() {
-  pkg_call("parallelly", "availableCores")
-}
-
-start_rave2 <- function(...) {
-  pkg_call(pkg = "rave", fun = "start_rave2")
-}
-
 # Function to install base packages
 check_base_pkgs <- function(pkgs) {
   if( length(pkgs) == 0 ) { return(invisible()) }
@@ -75,3 +63,29 @@ check_base_pkgs <- function(pkgs) {
   
   renv::install(url, prompt = FALSE)
 }
+
+
+
+
+
+
+rave_options_set <- function(key, value) {
+  pkg_call("raveio", "raveio_setopt", key = key, value = value)
+}
+
+available_cpu <- function() {
+  pkg_call("parallelly", "availableCores")
+}
+
+freesurfer_path <- function() {
+  recon_path <- system("module load FreeSurfer && which recon-all", intern = TRUE)
+  dirname(dirname(recon_path))
+}
+
+start_rave2 <- function(...) {
+  pkg_call(pkg = "rave", fun = "start_rave2")
+}
+
+
+
+
